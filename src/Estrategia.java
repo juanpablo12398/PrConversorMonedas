@@ -1,3 +1,7 @@
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -30,6 +34,7 @@ public class Estrategia {
     }
 
     public void buscarMoneda(Double monto) throws IOException, InterruptedException {
+
         // Quien lo pide.
         HttpClient cliente = HttpClient.newHttpClient();
 
@@ -48,8 +53,12 @@ public class Estrategia {
         HttpResponse<String> respuesta = null;
         respuesta = cliente.send(pedido, HttpResponse.BodyHandlers.ofString());
 
-        String json = respuesta.body();
-        System.out.println(json);
+        // System.out.println(respuesta.body());
+        Resultado resultado = new Gson().fromJson(respuesta.body(),Resultado.class);
+        // System.out.println(resultado);
+        ClaseResultado resultadoFinal = new ClaseResultado(resultado);
+        System.out.println(resultadoFinal);
+
     }
 
 }
